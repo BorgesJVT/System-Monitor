@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -67,8 +68,7 @@ vector<int> LinuxParser::Pids() {
   closedir(directory);
   return pids;
 }
-#include <iostream>
-// TODO: Read and return the system memory utilization
+
 float LinuxParser::MemoryUtilization() {
   float memUtilization{-1.0f};
   string memTotal, memFree, memAvailable, buffers, cached;
@@ -91,11 +91,10 @@ float LinuxParser::MemoryUtilization() {
     linestream.clear(); linestream.str(line);
     linestream >> cached >> cached >> kB;
   }
-  memUtilization = std::stof(memTotal)-std::stof(memFree);
+  memUtilization = (std::stof(memTotal)-std::stof(memFree)) / std::stof(memTotal);
   return memUtilization;
 }
 
-// TODO: Read and return the system uptime
 long LinuxParser::UpTime() {
   string upTime;
   string line;
@@ -125,10 +124,26 @@ long LinuxParser::IdleJiffies() { return 0; }
 vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
-int LinuxParser::TotalProcesses() { return 0; }
+int LinuxParser::TotalProcesses() { 
+  return LinuxParser::Pids().size(); 
+}
 
 // TODO: Read and return the number of running processes
-int LinuxParser::RunningProcesses() { return 0; }
+int LinuxParser::RunningProcesses() { 
+  string line;
+  string value{"-1"};
+  std::ifstream filestream(kProcDirectory + kStatFilename);
+  if (filestream.is_open()) {
+    while (std::getline(filestream, line)) {
+      std::size_t found = line.find("procs_running");
+      if (found != std::string::npos) {
+        value = line.substr(found+14, found+line.length()); 
+        break;
+      }
+    }
+  }
+  return std::stoi(value); 
+}
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
