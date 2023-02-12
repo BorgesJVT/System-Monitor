@@ -164,7 +164,19 @@ vector<string> LinuxParser::CpuUtilization() {
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
-  return LinuxParser::Pids().size(); 
+  return LinuxParser::Pids().size();
+  // string line, token;
+  // int processes{0};
+  // std::ifstream stream(kProcDirectory + kStatFilename); 
+  // if (stream.is_open()) {
+  //   while(std::getline(stream, line)) {
+  //     std::istringstream linestream(line);
+  //     linestream >> token;
+  //     if(token == "processes")
+  //       linestream >> processes;
+  //   }
+  // }
+  // return processes;
 }
 
 // TODO: Read and return the number of running processes
@@ -199,7 +211,7 @@ string LinuxParser::Command(int pid) {
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) { 
   string line, token;
-  long memSize;
+  long memSize{0L};
   std::ifstream stream(kProcDirectory + to_string(pid) + kStatusFilename);
   while(std::getline(stream, line)) {
     std::istringstream linestream(line);
@@ -208,7 +220,7 @@ string LinuxParser::Ram(int pid) {
         linestream >> memSize;
       }
   }
-  return to_string(memSize*0.001);
+  return to_string(memSize*0.001).substr (0,6);
 }
 
 // TODO: Read and return the user ID associated with a process

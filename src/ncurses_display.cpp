@@ -55,7 +55,7 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
 void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
                                       WINDOW* window, int n) {
   int row{0};
-  int const pid_column{2};
+  int const pid_column{4};
   int const user_column{9};
   int const cpu_column{16};
   int const ram_column{26};
