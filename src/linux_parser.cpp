@@ -155,18 +155,6 @@ vector<string> LinuxParser::CpuUtilization() {
 
 int LinuxParser::TotalProcesses() {
   return LinuxParser::Pids().size();
-  // string line, token;
-  // int processes{0};
-  // std::ifstream stream(kProcDirectory + kStatFilename);
-  // if (stream.is_open()) {
-  //   while(std::getline(stream, line)) {
-  //     std::istringstream linestream(line);
-  //     linestream >> token;
-  //     if(token == "processes")
-  //       linestream >> processes;
-  //   }
-  // }
-  // return processes;
 }
 
 int LinuxParser::RunningProcesses() {
