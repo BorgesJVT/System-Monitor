@@ -18,6 +18,12 @@ const std::string kVersionFilename{"/version"};
 const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
+// Filters
+const std::string filterRunningProcesses("procs_running");
+const std::string filterCpu("cpu");
+const std::string filterUID("Uid:");
+const std::string filterProcMem("VmRSS:"); // Gives the exactly physical memory being used
+
 // System
 float MemoryUtilization();
 long UpTime();
